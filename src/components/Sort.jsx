@@ -1,4 +1,18 @@
+import React from 'react';
+import { Value } from 'sass';
+
 function Sort() {
+  const [open, setOpen] = React.useState(false);
+  const [activeSort, setActiveSort] = React.useState(0);
+
+  const list = ['популярности', 'цене', 'алфавиту'];
+  const sortName = list[activeSort]
+
+  const btnActive = (i) => {
+    setActiveSort(i);
+    setOpen(false)
+  };
+
   return (
     <div className="sort">
       <div className="sort__label">
@@ -13,15 +27,22 @@ function Sort() {
             fill="#2C2C2C"></path>
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setOpen(!open)}>{sortName}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {open && (
+        <div className="sort__popup">
+          <ul>
+            {list.map((value, i) => (
+              <li
+                key={i}
+                onClick={() => btnActive(i)}
+                className={activeSort === i ? 'active' : ''}>
+                {value}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }

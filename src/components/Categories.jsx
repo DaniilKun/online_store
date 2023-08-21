@@ -14,6 +14,7 @@ function Categories() {
       <ul>
         {categories.map((value, i) => (
           <li
+          key={i}
             onClick={() => {
               btnActiveCategory(i);
             }}
