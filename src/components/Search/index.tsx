@@ -6,25 +6,28 @@ import styles from './Search.module.scss';
 import { useDispatch } from 'react-redux';
 import { setSearchValue } from '../../redux/slices/filterSlice';
 
-function Search() {
-  const dispatch = useDispatch( )
+const Search: React.FC = () => {
+  const dispatch = useDispatch();
   const [value, setValue] = React.useState('');
-  const inputRef = React.useRef();
+  const inputRef = React.useRef<HTMLInputElement>(null);
 
   const onClickClear = () => {
-dispatch(setSearchValue(''))
-    setValue('')
-    inputRef.current.focus();
+    dispatch(setSearchValue(''));
+    setValue('');
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+    // inputRef.current?.focus();
   };
 
   const updateSearchValue = React.useCallback(
-    debounce((str) => {
-      dispatch(setSearchValue(str))
+    debounce((str: string) => {
+      dispatch(setSearchValue(str));
     }, 350),
     [],
   );
 
-  const onChangeInput = (event) => {
+  const onChangeInput = (event: any) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value);
   };
@@ -38,7 +41,7 @@ dispatch(setSearchValue(''))
         className={styles.input}
         placeholder="Поиск пиццы ..."
       />
-      {value && <img onClick={() => onClickClear('')} className={styles.clear} src={img} alt="" />}
+      {value && <img onClick={() => onClickClear()} className={styles.clear} src={img} alt="" />}
     </div>
   );
 }
